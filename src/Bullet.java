@@ -10,8 +10,16 @@ public class Bullet extends GameObject {
 		super(x, y, id);
 		this.handler = handler;
 		
-		velX = (mx - x) / 10;
-		velY = (my - y) / 10;
+		//velX = (mx - x) / 10;
+		//velY = (my - y) / 10;
+		
+		double distance = Math.sqrt(Math.pow((mx - x), 2) + Math.pow((my - y), 2));
+		double speed = 10; //set the speed in [2,n)  n should be < 20 for normal speed
+		//find Y
+		velY = (float)((my - y) * speed / distance);
+		//find X
+		velX = (float)((mx - x) * speed / distance);
+		
 	}
 
 	public void tick() {

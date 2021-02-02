@@ -1,9 +1,10 @@
 import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Handler {
 	
-	LinkedList<GameObject> object = new LinkedList<GameObject>();     // An array of objects
+	ArrayList<GameObject> object = new ArrayList<GameObject>();     // An array of objects
 	
 	private boolean up = false, down = false, right = false, left = false;
 	
