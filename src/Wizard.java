@@ -8,14 +8,21 @@ public class Wizard extends GameObject {
 	Handler handler;
 	Game game;
 	
-	private BufferedImage wizard_image;
+	private BufferedImage[] wizard_image =  new BufferedImage[3];
+	
+	Animation anim;
 
 	public Wizard(int x, int y, ID id, Handler handler, Game game, SpriteSheet ss) {
 		super(x, y, id, ss);
 		this.handler = handler;
 		this.game = game;
 		
-		wizard_image = ss.grabImage(1, 1, 32, 48);
+		wizard_image[0] = ss.grabImage(1, 1, 32, 48);
+		wizard_image[1] = ss.grabImage(2, 1, 32, 48);
+		wizard_image[2] = ss.grabImage(3, 1, 32, 48);
+		
+		anim = new Animation(3, wizard_image[0], wizard_image[1], wizard_image[2]);
+		
 	}
 
 	public void tick() {
@@ -37,6 +44,8 @@ public class Wizard extends GameObject {
 		
 		if(handler.isLeft()) velX = -5;
 		else if(!handler.isRight()) velX = 0;
+		
+		anim.runAnimation();
 		
 	}
 	
@@ -77,7 +86,11 @@ public class Wizard extends GameObject {
 	 }
 
 	public void render(Graphics g) {
-		g.drawImage(wizard_image, x, y, null);
+		if(velX == 0 && velY == 0) 
+			g.drawImage(wizard_image[0], x, y, null);
+		else
+			anim.drawAnimation(g, x, y, 0);
+		
 	}
 
 	public Rectangle getBounds() {
