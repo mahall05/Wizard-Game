@@ -12,11 +12,11 @@ public class Wizard extends GameObject {
 	}
 
 	public void tick() {
+		
+		collision();
+		
 		x += velX;
 		y += velY;
-		
-		collisions();
-		
 		
 		//movement
 		if(handler.isUp()) velY = -5;
@@ -31,23 +31,35 @@ public class Wizard extends GameObject {
 		if(handler.isLeft()) velX = -5;
 		else if(!handler.isRight()) velX = 0;
 		
-		
 	}
-	private void collisions() {
-		for(int i = 0; i < handler.object.size(); i++) {
-			
-			GameObject tempObject = handler.object.get(i);
-			
-			if(tempObject.getId() == ID.Block) {
-				
-				if(getBounds().intersects(tempObject.getBounds())) {
-					x += velX * -1;
-					y += velY * -1;
-				}
-				
-			}
-		}
-	}
+	
+	
+	
+	 public boolean place_free(int x, int y, Rectangle myRect, Rectangle otherRect) {
+		  myRect.x = x;
+		  myRect.y = y;
+		  if (myRect.intersects(otherRect)) {
+		   return false;
+		  }
+		  return true;
+		 }
+		 
+	 public void collision() {
+		 
+		 for (int i = 0; i < handler.object.size(); i++) {
+			 GameObject tempObject = handler.object.get(i);
+
+			 if (tempObject.getId() == ID.Block) {
+		     if (!place_free((int) (x + velX), y, getBounds(), tempObject.getBounds())) {
+		    	 velX = 0;
+		    }
+
+		     if (!place_free(x, (int) (y + velY), getBounds(), tempObject.getBounds())) {
+		    	 velY = 0;
+		    }
+		   }
+		  }
+		 }
 
 	public void render(Graphics g) {
 		g.setColor(Color.blue);
