@@ -9,10 +9,16 @@ public class Game extends Canvas implements Runnable {
 	
 	private boolean isRunning = false;
 	private Thread thread;
+	private Handler handler;
 
 	public Game() {
 		new Window(1000, 563, "Wizard Game", this);
 		start();
+		
+		handler = new Handler();
+		
+		handler.addObject(new Box(100, 100));
+		handler.addObject(new Box(200, 100));
 		
 	}
 	
@@ -59,7 +65,7 @@ public class Game extends Canvas implements Runnable {
 	}
 	
 	public void tick() {     // Update all the things in the game
-		
+		handler.tick();
 	}
 	
 	public void render() {     // Render all the graphics
@@ -74,6 +80,8 @@ public class Game extends Canvas implements Runnable {
 		
 		g.setColor(Color.red);
 		g.fillRect(0, 0, 1000, 563);
+		
+		handler.render(g);
 		
 		//////////////////////////////////////////////////
 		g.dispose();
