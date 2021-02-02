@@ -1,6 +1,7 @@
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 
@@ -11,6 +12,7 @@ public class Game extends Canvas implements Runnable {
 	private boolean isRunning = false;
 	private Thread thread;
 	private Handler handler;
+	private Camera camera;
 	
 	private BufferedImage level = null;
 
@@ -19,6 +21,7 @@ public class Game extends Canvas implements Runnable {
 		start();
 		
 		handler = new Handler();
+		camera = new Camera(0, 0);
 		this.addKeyListener(new KeyInput(handler));
 		
 		BufferedImageLoader loader = new BufferedImageLoader();
@@ -71,6 +74,13 @@ public class Game extends Canvas implements Runnable {
 	}
 	
 	public void tick() {     // Update all the things in the game
+		
+		for(int i = 0; i < handler.object.size(); i++) {     // Loop through all objects
+			if(handler.object.get(i).getId() == ID.Player) {     // Find which object is the player
+				camera.tick(handler.object.get(i));     // Put that into the parameters of the camera
+			}
+		}
+		
 		handler.tick();
 	}
 	
@@ -82,12 +92,17 @@ public class Game extends Canvas implements Runnable {
 		}
 		
 		Graphics g = bs.getDrawGraphics();
+		Graphics2D g2d = (Graphics2D) g;
 		//////////////////////////////////////////////////
 		
 		g.setColor(Color.red);
 		g.fillRect(0, 0, 1000, 563);
 		
+		g2d.translate(-camera.getX(), -camera.getY());     // Everything in-between this...
+		
 		handler.render(g);
+		
+		g2d.translate(camera.getX(), camera.getY());     // ...and this is being translated
 		
 		//////////////////////////////////////////////////
 		g.dispose();

@@ -9,3 +9,4 @@ Part 2 - Done 2/1/2021 @ 7:09 pm
 Part 3 - Done 2/1/2021 @ 7:16 pm
 Part 4 - Done 2/1/2021 @ 7:33 pm
 Part 5 - Done 2/1/2021 @ 8:02 pm
+Part 6 - Done 2/1/2021 @ 8:20 pm
